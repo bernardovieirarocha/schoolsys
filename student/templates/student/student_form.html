@@ -1,0 +1,102 @@
+{% extends 'base.html'%}
+{% load bootstrap %}
+{% load crispy_forms_tags %}
+
+{% block title %} Student Sign Up {% endblock %}
+
+{% block main2 %}
+<style>
+	.btn-primary {
+		margin-left: 10px;
+		border-width: 0px;
+		margin-top: 5px;
+	}
+
+	.btn-primary:hover {
+		opacity: 0.7;
+	}
+
+	#dropdownMenuLink {
+		margin-left: 10px;
+		border-width: 0px;
+		margin-top: 5px;
+	}
+
+	#container {
+		width: 100%;
+		margin: 0 auto;
+
+	}
+</style>
+<link rel='stylesheet' href="/static/style_form.css">
+<nav class="navbar navbar-expand-lg   navbar-dark bg-dark fixed-top">
+	<a class="navbar-brand" href="#">School System</a>
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item active">
+			<a style="color: black;" class="btn btn-primary" href="{% url 'home' %}">Home <span
+					class="sr-only">(current)</span>
+				<i class="fas fa-home"></i>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+<br>
+
+<div class="limiter">
+	<div class="container-login100">
+		<div class="wrap-login100">
+			<div class="login100-form-title" style="background-image: url(/static/header_576_100.png);">
+
+			</div>
+			<div class="login100-form" style="align-items: center;">
+				<form action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-row">
+						<div class="form-group col-md-4 mb-0">
+							{{ form.username | as_crispy_field }}
+						</div>
+						<div class="form-group col-md-3 mb-0">
+							{{ form.password1 | as_crispy_field }}
+						</div>
+						<div class="form-group col-md-5 mb-0">
+							{{ form.password2 | as_crispy_field }}
+						</div>
+						<div class="form-group col-md-6 mb-0">
+							{{ form.user_selenium | as_crispy_field }}
+						</div>
+						<div class="form-group col-md-6 mb-0">
+							{{ form.password_selenium | as_crispy_field }}
+						</div>
+						<div class="form-group col-md-6 mb-0">
+							{{ form.grade | as_crispy_field }}
+						</div>
+						<div class="form-group col-md-6 mb-0">
+							{{ form.email | as_crispy_field }}
+						</div>
+					</div>
+					{% if form.errors %}
+					{% for field in form %}
+					{% for error in field.errors %}
+					<div class="alert alert-danger">
+						<strong>{{ error|escape }}</strong>
+					</div>
+					{% endfor %}
+					{% endfor %}
+					{% for error in form.non_field_errors %}
+					<div class="alert alert-danger">
+						<strong>{{ error|escape }}</strong>
+					</div>
+					{% endfor %}
+					{% endif %}
+					<input type="submit" class="btn btn-success" value="Save" />
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}

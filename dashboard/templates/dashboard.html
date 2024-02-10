@@ -1,0 +1,364 @@
+{% extends 'base_bt3.html'%}
+{% load static %}
+{% load bootstrap%}
+
+{% block title%} Exam List {% endblock %}
+
+{% block main2%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+  integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/style_list_exam.css">
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+
+<style>
+  .card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+  }
+
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .chart-container .col-md-6 {
+    padding-bottom: 20px;
+  }
+</style>
+
+<div class="d-flex" id="wrapper">
+
+  <!-- Sidebar -->
+  <div class="bg-dark navbar-dark" id="sidebar-wrapper">
+    <div class="sidebar-heading" style="color: white;">School System</div>
+    <div class="list-group list-group-flush">
+      <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'dashboard' %}">Dashboard
+        <i class="fas fa-chart-line"></i>
+      </a>
+      <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'exam_list' %}">Exams
+        <i class="fas fa-file-word"></i>
+      </a>
+      <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'calendar' %}">Calendary
+        <i class="fas fa-calendar-week"></i>
+      </a>
+      <a style="color: white;" class="list-group-item list-group-item-action bg-dark"
+        href="{% url 'list_student' %}">Student
+        <i class="fas fa-user-graduate"></i>
+      </a>
+
+
+    </div>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="btn btn-primary" id="menu-toggle">Sidebar &NonBreakingSpace;<i class="fas fa-bars"></i></button>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a style="color: black;" class="btn btn-primary" href="{% url 'home' %}">Home <span
+                class="sr-only">(current)</span>
+              <i class="fas fa-home"></i>
+            </a>
+
+          </li>
+          <li class="nav-item active">
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {% if user.is_authenticated %}
+                User:{{ user.username }}<i class="fas fa-user"></i>
+                {% else %}
+                User:<i class="fas fa-user"></i>
+                {%endif%}
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% if user.is_authenticated %}
+                <a class="dropdown-item" href="{% url 'logout'%}">Logout
+                  <i class="fas fa-door-open"></i>
+                </a>
+                {% else %}
+                <a class="dropdown-item" href="{% url 'login'%}">Login
+                  <i class="fas fa-sign-in-alt"></i>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <br>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary">
+          <div class="container-fluid">
+            <div class="page-header-content">
+              <h1 class="page-header-title text-center">
+                <div class="page-header-icon">
+                </div>
+                <span>Dashboard</span>
+              </h1>
+              <div class="page-header-subtitle">Example dashboard overview and content summary</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <div class="row justify-content-center">
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Humanities</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><a name="humanities_btn" id="humanities_btn"
+                    class="btn btn-info" href="{% url 'humanas' %}" role="button">Humanities</a></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-globe-americas fa-3x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Math Science</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><a name="math_science" id="math_science"
+                    class="btn btn-info" href="{% url 'math_science' %}" role="button">Math Science</a></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-square-root-alt fa-3x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Requests Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Languages</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><a name="languages" id="languages"
+                    class="btn btn-info" href="{% url 'languages' %}" role="button">Languages</a></div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-language fa-3x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <div class="chart-container">
+      <div class="row">
+
+        <div class="col-md-6">
+          <div class="card" style="width: 100%;height: 100%;">
+            <div id="donut_chart" style="display: block; height: 100%; width: 100%;"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card" style="width: 100%;height: 100%;">
+            <div id="bar_chart" style="display: block; height: 100%; width: 100%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#wrapper -->
+
+
+
+    <!-- Menu Toggle Script -->
+    <script>
+      $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+    </script>
+
+    <script>
+      _exames_mes = {{exames_mes|safe}};
+      _eventos_mes = {{evento_mes|safe}};
+      _estudos = {{estudos|safe}};
+      _lazer = {{lazer|safe}};
+      _trabalhos = {{trabalhos|safe}}
+      Highcharts.chart('bar_chart', {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Calendar Statistics'
+        },
+        xAxis: {
+          categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+          ],
+          crosshair: true
+        },
+        colors: ["rgba(110, 68, 255)", "rgba(42, 157, 143)", 'rgba(230, 57, 70)', 'rgba(110, 68, 255)'],
+
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Eventos e Exames'
+          }
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:15px;color:red;">{point.key}</span><table>',
+          pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+          footerFormat: '</table>',
+          shared: true,
+          useHTML: true
+        },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+          }
+        },
+        series: [{
+          name: 'Qta_evento',
+          data: _eventos_mes
+
+        }, {
+          name: 'Qta_exames',
+          data: _exames_mes
+
+        }]
+      });
+      var colors = Highcharts.getOptions().colors,
+        categories = [
+          'Estudos',
+          'Lazer',
+          'Trabalho',
+        ],
+        data = [{
+            y: _estudos,
+            color: "rgba(38, 70, 83)",
+          },
+          {
+            y: _lazer,
+            color: "rgba(230, 57, 70)",
+
+          },
+          {
+            y: _trabalhos,
+            color: "rgba(42, 157, 143)",
+
+          },
+
+        ],
+        browserData = [],
+        versionsData = [],
+        i,
+        j,
+        dataLen = data.length,
+        drillDataLen,
+        brightness;
+
+
+      // Build the data arrays
+      for (i = 0; i < dataLen; i += 1) {
+
+        // add browser data
+        browserData.push({
+          name: categories[i],
+          y: data[i].y,
+          color: data[i].color
+        });
+
+        // add version data
+
+      }
+
+      // Create the chart
+      Highcharts.chart('donut_chart', {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          text: 'Most Used Categories in Calendar'
+        },
+
+        plotOptions: {
+          pie: {
+            shadow: false,
+            center: ['50%', '50%'],
+            dataLabels: {
+              enabled: false,
+              format: '<b>{point.name}</b>:{point.percentage:.1f} %'
+            },
+            showInLegend: true,
+          }
+        },
+        series: [{
+          name: 'Browsers',
+          data: browserData,
+          size: '100%',
+
+        }, {
+          name: 'Versions',
+          data: versionsData,
+          size: '100%',
+          id: 'versions'
+        }],
+        responsive: {
+          rules: [{
+            condition: {
+              maxWidth: 500
+            },
+            chartOptions: {
+              series: [{}, {
+                id: 'versions',
+                dataLabels: {
+                  enabled: false
+                }
+              }]
+            }
+          }]
+        }
+      });
+    </script>
+    {%endblock%}

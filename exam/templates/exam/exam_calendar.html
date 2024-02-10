@@ -1,0 +1,159 @@
+{% extends 'base_callendar.html' %}
+
+{% block title%}Calendar{%endblock%}
+{% block main2 %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+<link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js'></script>
+<link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.print.css" media="print">
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 text-center" style="align-items: center;">
+            <h1>Calendar</h1>
+            <a name="btn_create_event" id="btn_create_event" class="btn btn-success" href="{% url 'exam_create'%}" role="button">Create Event </a>
+            <a name="btn_back" id="btn_back" class="btn btn-primary" href="{% url 'exam_list'%}" role="button">Back</a>
+                
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        var count = 0;
+        $(function() {
+            // page is now ready, initialize the calendar...
+            $('#calendar').fullCalendar({
+                plugins: [ 'list','momentPlugin','dayGrid', 'timeGrid', 'list'],
+                defaultView: (function () { if ($(window).width() <= 768) { return defaultView = 'agendaDay'; } else { return defaultView = 'month'; } })(),
+                themeSystem: "boostrap",
+                header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay,listWeek'
+                        },
+                events: [
+                        {% for event in events %}
+                                {% if event.all_day == True %}
+                                    {
+                                        title: "{{ event.title}}",
+                                        start: '{{ event.start|date:"Y-m-d H:m:s" }}',
+                                        end: '{{ event.end|date:"Y-m-d H:m:s" }}',
+                                        allDay: true,
+                                        id: "{{ event.evento_id}}",
+                                    },
+                                {%else%}
+                                    {
+                                        title: "{{ event.title}}",
+                                        start: '{{ event.start|date:"Y-m-d H:m:s" }}',
+                                        end: '{{ event.end|date:"Y-m-d H:m:s" }}',
+                                        allDay: false,
+                                        id: "{{ event.evento_id}}"
+
+                                    },
+                                {%endif%}
+                        {% endfor %}
+
+                    ],
+                timezone: 'America/Sao_Paulo',
+                navLinks: true, // can click day/week names to navigate views
+                locale: 'br',
+                titleFormat: "MMM Do, Y",
+                selectable: false,
+                selectHelper: false,
+                editable: false,
+                eventLimit: true,
+                eventClick: function(event) {
+                        eventoID = (event.id).toString() + "/"
+                        href_update = "/exam/exam_update/"
+                        href_delete = "/exam/exam_delete/"
+                        $('#successModal .modal-body .update_btn a').attr('href',href_update+eventoID);
+                        $('#successModal .modal-body .delete_btn a').attr('href',href_delete+eventoID);
+                        // Showing the success modal
+                        $("#successModal").modal("show");
+                        $("#title_card").text(event.title);
+                        $("#start_id").text(event.start.format("DD/MM/YYYY"));
+                        if (event.allDay == true) {
+
+                            $("#all_day").text("True");
+                        }
+                        else {
+                            $("#all_day").text("False");
+                        }
+                        $("#end_date").text(event.end.format("DD/MM/YYYY"));
+                        console.log("href = ",sol)
+                        console.log("Evento = ",eventoID)
+
+                },
+            });
+
+        });
+        //   <a href="/calendar/calendar_update/6/"> SADAS</a>
+
+
+        </script>
+
+
+
+
+
+        <div class="container">
+            <div id='calendar'></div>
+            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="card mx-auto">
+                                <div class="card-header">
+                                    <h4 id="title_card" class="card-title"></h4>
+                                </div>
+                                <div class="card-body">
+                                    <dl class="row">
+                                        <dt class="col-sm-3"  >Start Date</dt>
+                                        <dd class="col-sm-9" id="start_id"></dd>
+                                        <dt class="col-sm-3"  >End Date</dt>
+                                        <dd class="col-sm-9" id="end_date"></dd>
+                                        <dt class="col-sm-3">All Day</dt>
+                                        <dd class="col-sm-9" id="all_day"></dd>
+                                    </dl>
+            
+                                </div>
+                            </div>
+                        <p></p>
+                        <div class="update_btn">
+                            <a class="btn btn-primary" id="update_btn" href="">Update</a>
+                        </div>
+                        <br>
+                        <div class="delete_btn">
+                            <a class="btn btn-danger" id="update_btn" href="">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+{% endblock %}
+

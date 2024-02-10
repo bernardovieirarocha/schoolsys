@@ -1,0 +1,156 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title%} Home {% endblock %}
+
+{% block main2%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/style_list_exam.css">
+
+
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-dark navbar-dark" id="sidebar-wrapper">
+      <div class="sidebar-heading" style="color: white;">School System</div>
+      <div class="list-group list-group-flush">
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'dashboard' %}">Dashboard
+            <i class="fas fa-chart-line"></i>
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'exam_list' %}">Exams
+            <i class="fas fa-file-word"></i>                
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'home' %}">Calendary
+            <i class="fas fa-calendar-week"></i>
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'list_student' %}">Student
+            <i class="fas fa-user-graduate"></i>
+        </a>
+
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="btn btn-primary" id="menu-toggle">Sidebar &NonBreakingSpace;<i class="fas fa-bars"></i></button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'home' %}">Home <span
+                        class="sr-only">(current)</span>
+                        <i class="fas fa-home"></i>
+                    </a>
+                
+            </li>
+            <li class="nav-item active">
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                            User:{{ user.username }}<i class="fas fa-user"></i>
+                        {% else %}
+                            User:<i class="fas fa-user"></i>
+                        {%endif%}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="{% url 'logout'%}">Logout
+                                <i class="fas fa-door-open"></i>
+                            </a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'login'%}">Login
+                                <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      
+
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 text-center" style="align-items: center;">
+            <h2 class='text-resume'><a class="effect-underline">Your Student Info:</a></h2>
+            <br>
+            <p class='text-resume'>This page contains the information about the current logged student</p> 
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center table responsive">
+   
+  <div class="card" style="width: 25rem;">
+    <img src="/static/student_ico.jpg" width="350" height="350" class="card-img-top" alt="...">
+    <div class="card-body">
+      {% for student in object_list %}
+        <a href="{% url 'detail_student' student.id%}">{{ student.username | upper}}</a>
+        <br>
+        <br>
+        <a class="btn btn-danger" href="{% url 'delete_student' student.id%}" style="margin-bottom: 5px;">Delete</a><br>
+        <a class="btn btn-info" href="{% url 'password_change' %}">Change Password</a>
+        <a class="btn btn-warning" href="{% url 'password_reset' %}">Reset Password</a>
+      {% empty %}
+          <p>Sorry, no persons found.</p>
+      {% endfor%}
+    </div>
+  </div>
+
+</div>
+<!-- /#page-content-wrapper -->
+<!-- Add icon library -->
+<!-- /#wrapper -->
+
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+</style>
+
+
+
+<!-- /#page-content-wrapper -->
+<!-- Add icon library -->
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+$("#menu-toggle").click(function(e) {
+  e.preventDefault();
+  $("#wrapper").toggleClass("toggled");
+});
+</script>
+
+{%endblock%}
+
+
+
+
+
+
+
+

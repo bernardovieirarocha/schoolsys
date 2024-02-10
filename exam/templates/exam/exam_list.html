@@ -1,0 +1,189 @@
+
+{% extends 'base.html'%}
+{% load static %}
+{% load bootstrap%}
+
+{% block title%} Exam List {% endblock %}
+
+{% block main2%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/style_list_exam.css">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="/static/calendar_toggle.js">
+
+</script>
+
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-dark navbar-dark" id="sidebar-wrapper">
+      <div class="sidebar-heading" style="color: white;">School System</div>
+      <div class="list-group list-group-flush">
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'dashboard' %}">Dashboard
+            <i class="fas fa-chart-line"></i>
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'exam_list' %}">Exams
+            <i class="fas fa-file-word"></i>                
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'calendar' %}">Calendary
+            <i class="fas fa-calendar-week"></i>
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'list_student' %}">Student
+            <i class="fas fa-user-graduate"></i>
+        </a>
+        <a style="color: white;" class="list-group-item list-group-item-action bg-dark" href="{% url 'exam_create' %}">Create Exam
+            <i class="fas fa-align-justify"></i>        </a>
+            
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="btn btn-primary" id="menu-toggle">Sidebar &NonBreakingSpace;<i class="fas fa-bars"></i></button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'home' %}">Home <span
+                        class="sr-only">(current)</span>
+                        <i class="fas fa-home"></i>
+                    </a>
+            </li> 
+            <li class="nav-item active">
+                <button  type="checkbox" style="color: black;"  onclick='got_to_calendar();' class="btn btn-primary" checked data-toggle="toggle" data-on="List" data-off="Calendar" data-onstyle="success" data-offstyle="info"> Calendar View </button>   
+            </li>
+
+            <li class="nav-item active">
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                            User:{{ user.username }}<i class="fas fa-user"></i>
+                        {% else %}
+                            User:<i class="fas fa-user"></i>
+                        {%endif%}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="{% url 'logout'%}">Logout
+                                <i class="fas fa-door-open"></i>
+                            </a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'login'%}">Login
+                                <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      
+<br>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-12 text-center" style="align-items: center;">
+            <h2 class='text-resume'><a class="effect-underline">Your Exams:</a></h2>
+            <br>
+            <p class='text-resume'>This is a list of all your exams:</p> 
+        </div>
+    </div>
+</div>
+<br>
+    <div class="d-flex justify-content-center table responsive">
+        <table class="table table-dark" style="width: 95%; background-color: #343A40;">
+            <thead>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for exam in object_list %}
+                <tr>
+                    <td scope="row" data-label="Name"><a href="{% url 'exam_detail' exam.id%}">{{ exam.description | upper}}</a></td>
+                    <td data-label="Delete"><a class="btn btn-danger" href="{% url 'exam_delete' exam.id %}">Delete</a></td>
+                    <td data-label="Update"><a class="btn btn-info" href="{% url 'exam_update' exam.id %}">Update</a></td>
+                </tr>
+                {% empty %}
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Sorry, no persons found.</td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+    <!-- /#page-content-wrapper -->
+    {% if is_paginated %}
+<hr>
+<nav aria-label="Page navigation example" >
+    <ul class="pagination justify-content-center pagination-sm" >
+        {% if page_obj.has_previous %}
+          <!-- If it ain't a search result display, don't append the search query
+               to the URL. -->
+          {% if not search %}
+          <li class="page-item" >
+              <a class="page-link" href="{% url 'exam_list' %}?page={{ page_obj.previous_page_number }}" tabindex="-1"><i class="fas fa-backward"></i></a>
+          </li>
+          {% else %}
+          <!-- Append the searched query to the URL, so that on a search results page,
+               the pagination don't revert to listing all the listview items. -->
+            <li class="page-item">
+              <a class="page-link" href="{% url 'exam_list' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1"><i class="fas fa-backward"></i></a>
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1"><i class="fas fa-backward"></i></a>
+        </li>
+        {% endif %} 
+        {% for object in page_obj.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="{% url 'exam_list' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+        {% endfor %} 
+        {% if page_obj.has_next %}
+          {% if not search %}
+          <li class="page-item">
+              <a class="page-link" href="{% url 'exam_list' %}?page={{ page_obj.next_page_number }}"><i class="fas fa-forward"></i>
+              </a>
+          </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="{% url 'exam_list' %}?{{search}}&page={{ page_obj.next_page_number }}"><i class="fas fa-forward"></i>
+              </a>
+          </li>
+          {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#"><i class="fas fa-forward"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+  </div>
+  <!-- /#wrapper -->
+
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <a id='go_to_calendar' href="{% url 'calendar_exam'%}" style="overflow: hidden;display: none;">aaeweea</a>
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+{%endblock%}

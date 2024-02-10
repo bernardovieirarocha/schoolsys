@@ -1,0 +1,222 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block title%} Home {% endblock %}
+
+{% block main2%}
+<!-- Custom fonts for this template -->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/style_home.css">
+
+
+<nav class="navbar navbar-expand-lg   navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">School System of Students</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'home' %}">Home <span
+                        class="sr-only">(current)</span>
+                        <i class="fas fa-home"></i>
+                    </a>
+            </li>
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard
+                    <i class="fas fa-chart-line"></i>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'exam_list' %}">Exams
+                    <i class="fas fa-file-word"></i>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'calendar' %}">Calendary
+                    <i class="fas fa-calendar-week"></i>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a style="color: black;" class="btn btn-primary" href="{% url 'list_student' %}">Student
+                    <i class="fas fa-user-graduate"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active" style="margin-right: 10px;">
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                            User:{{ user.username }}<i class="fas fa-user"></i>
+                        {% else %}
+                            User:<i class="fas fa-user"></i>
+                        {%endif%}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="{% url 'logout'%}">Logout
+                                <i class="fas fa-door-open"></i>
+                            </a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'login'%}">Login
+                                <i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
+
+<header>
+    <picture>
+        <source media="(max-width: 576px)"
+          srcset="/static/header_576_100.png">
+        <source media="(max-width: 922px)"
+          srcset="/static/header_922_100.png">
+        <source media="(min-width: 923px)"
+          srcset="/static/header_image.png">
+        <img class="img-fluid" src="/static/header_image.png">
+    </picture>
+</header>
+
+<br>
+  <!-- About Section -->
+  <section id="about" class="about-section text-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="text-center" style="align-items: center;">
+          <h2 class="text-resume"  ><a class="effect-underline">School Sys</a></h2>
+          <p class="text-resume">This is a online plataform for students that wants to orginize their routine of study.
+            <a >The plataform</a>&NonBreakingSpace;contains resourses that facilitate a creation and maitenence of a study routine through the creation of exams and visual aids such as charts and calendars.
+        </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+  <br>
+ 
+    <!-- Services-->
+    <section class="page-section" id="services">
+        <div class="container">
+              <div class="text-center">
+                  <p  class="section-subheading text-uppercase">Services</p>
+                  <h2 class="section-subheading ">Features</h2>
+              </div>
+            <div class="row ">
+  
+              <div class="col-lg-3 col-sm-6 mb-4">
+                  <div class="card align-items-center border-0 shadow rounded-xs pt-5">
+                      <div class="card-body text-center"> <i class="fa fa-calendar icon-lg icon-primary icon-bg-primary icon-bg-circle mb-3"></i>
+                          <h4 class="mt-4 mb-3">Calendar</h4>
+                          <p class="paragraph">This Web Application contains a calendar for scheduling your exams and organizing your time as a student.</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 mb-4">
+                  <div class="card align-items-center border-0 shadow rounded-xs pt-5">
+                      <div class="card-body text-center"> <i class="fa fa-laptop icon-lg icon-green icon-bg-green icon-bg-circle mb-3"></i>
+                        &NonBreakingSpace;&NonBreakingSpace;<i class="fa fas fa-mobile icon-lg icon-cyan icon-bg-cyan icon-bg-circle mb-3"></i>
+                          <h4 class="mt-4 mb-3">Responsive Design</h4>
+                          <p class="paragraph">This Web Page was desing to work in both mobile and desktop</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 mb-4">
+                  <div class="card align-items-center border-0 shadow rounded-xs pt-5">
+                      <div class="card-body text-center"> <i class="fa fa-desktop icon-lg icon-purple icon-bg-purple icon-bg-circle mb-3"></i>
+                          <h4 class="mt-4 mb-3">Web Design</h4>
+                          <p class="paragraph">Made thinking on the user navigation!</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 mb-4">
+                  <div class="card align-items-center border-0 shadow rounded-xs pt-5">
+                      <div class="card-body text-center"> <i class="fa fa-lock icon-lg icon-yellow icon-bg-yellow icon-bg-circle mb-3"></i>
+                          <h4 class="mt-4 mb-3">Web Security</h4>
+                          <p class="paragraph">This page was also desing for the safety of your data using encription and much more.</p>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </section>
+  
+   
+    
+  
+  
+  <!-- Section: Team v.1 -->
+  <section class="team-section text-center my-5" style="margin: 0; padding: 0px;">
+  
+      <!-- Section heading -->
+      <h2 class="h1-responsive font-weight-bold my-5">Our amazing team</h2>
+
+      <div class="container">
+      <!-- Grid row -->
+        <div id="grid_row" class="row justify-content-center align-items-center">
+        
+            <!-- Grid column -->
+            <div class="col-lg-3 col-md-6 mb-lg-0 mb-5">
+            <div class="avatar mx-auto">
+                <img src="/static/rabeloavatar.png"  width="250" height="250"  class="rounded-circle z-depth-1"
+                alt="Sample avatar">
+            </div>
+            <h5 class="font-weight-bold mt-4 mb-3">Arthur Rabelo</h5>
+            <p class="text-uppercase blue-text"><strong>Graphic designer</strong></p>
+            <p class="grey-text">Our Graphic Designer</p>
+            <ul class="list-unstyled mb-0">
+                <!-- Facebook -->
+                <a class="p-2 fa-lg fb-ic">
+                <i class="fab fa-facebook-f blue-text"> </i>
+                </a>
+                <!-- Twitter -->
+                <a class="p-2 fa-lg tw-ic">
+                <i class="fab fa-twitter blue-text"> </i>
+                </a>
+                <!-- Instagram -->
+                <a class="p-2 fa-lg ins-ic">
+                <i class="fab fa-instagram blue-text"> </i>
+                </a>
+            </ul>
+            </div>
+            <!-- Grid column -->
+        
+            <!-- Grid column -->
+            <div class="col-lg-3 col-md-6">
+            <div class="avatar mx-auto">
+                <img src="/static/avatar.png" width="250" height="250" class="rounded-circle z-depth-1"
+                alt="Sample avatar">
+            </div>
+            <h5 class="font-weight-bold mt-4 mb-3">Bernardo Rocha</h5>
+            <p class="text-uppercase blue-text"><strong>Backend developer</strong></p>
+            <p class="grey-text">Our Backend and Developer</p>
+            <ul class="list-unstyled mb-0">
+                <!-- Twitter -->
+                <a class="p-2 fa-lg tw-ic">
+                <i class="fab fa-twitter blue-text"> </i>
+                </a>
+                <!-- Github -->
+                <a class="p-2 fa-lg ins-ic">
+                <i class="fab fa-github blue-text"> </i>
+                </a>
+            </ul>
+            </div>
+            <!-- Grid column -->
+        
+        </div>
+        <!-- Grid row -->
+    </div>
+    </section>
+    <!-- Section: Team v.1 -->
+  
+{%endblock%}
