@@ -9,6 +9,10 @@
       {
         "src": "/(.*)",
         "dest": "schoolsys/wsgi.py"
+      },
+      {
+        "src": "/static/(.*)",
+        "dest": "/static/$1"
       }
     ]
 }

@@ -104,7 +104,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'schoolsys.wsgi.application'
+WSGI_APPLICATION = 'schoolsys.wsgi.app'
 
 
 # Database
