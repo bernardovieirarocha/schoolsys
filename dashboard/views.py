@@ -1,19 +1,25 @@
-from typing import Collection
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-from django.views import View
-from django.db.models import Sum, F, FloatField, Max, Avg, Count, Q
-from django.db.models.functions import Coalesce
-from calendar_app.models import Event, Category
-from exam.models import Exam, Etapa
 import json
-# Create your views here.
+from typing import Collection
 
+from django.db.models import Avg, Count, F, FloatField, Max, Q, Sum
+from django.db.models.functions import Coalesce
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
+from django.views import View
+
+from calendar_app.models import Category, Event
+from exam.models import Etapa, Exam
+
+# Create your views here.
+# Importante detalhe para o sistema funcionar de Dashboard deve haver no banco de dados: createsuperuser // --syncdb // alguma etapa // categorias dos eventos da calendário
 
 class Dashboard(View):
     def get(self, request):
         exames_mes = []
         evento_mes = []
+        lazer = []
+        estudos = []
+        trabalhos = []
         lazer = Category.objects.filter(
             name__icontains='lazer'
         )[0].categorias.all().count()
