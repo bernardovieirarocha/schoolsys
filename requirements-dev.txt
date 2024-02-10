@@ -1,17 +1,15 @@
 astroid==2.3.3
 cffi==1.14.0
-cryptography==2.9.1
+cryptography==3.4.8
 dj-database-url==0.5.0
 dj-static==0.0.6
 Django==2.1
-django-appconf==1.0.4
+django-appconf==1.0.6
 django-bootstrap-form==3.4
 django-cpffield==0.1.1
 django-crispy-forms==1.9.0
 django-cryptography==1.0
 django-debug-toolbar==1.11
-django-encrypted-model-fields==0.5.8
-django-filer==1.7.1
 django-js-asset==1.2.2
 django-libs==2.0.3
 django-mptt==0.11.0
@@ -21,7 +19,7 @@ future==0.18.2
 icalendar==4.0.5
 isort==4.3.21
 lazy-object-proxy==1.4.3
-localflavor==1.8
+localflavor==1.9
 mccabe==0.6.1
 Pillow==7.1.2
 pycodestyle==2.5.0
@@ -32,7 +30,7 @@ python-dateutil==2.8.1
 python-decouple==3.3
 python-http-client==3.2.7
 pytz==2019.3
-six==1.11.0
+six==1.16.0
 sqlparse==0.3.1
 static3==0.7.0
 typed-ast==1.4.1
@@ -40,3 +38,4 @@ Unidecode==1.1.1
 wrapt==1.11.2
 datepickerwidget==0.4
 djangorestframework==3.11.0
+whitenoise
